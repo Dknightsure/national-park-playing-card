@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>National Parks Playing Cards Review</title>
+  <style>
+    :root {
+      --paper: #f7f0df;
+      --surface: #fffaf0;
+      --ink: #12201f;
+      --muted: #64706b;
+      --rule: #d8c7a4;
+      --accent: #a94f35;
+      --accent-dark: #743323;
+      --shadow: rgba(18, 32, 31, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--rule);
+      background: rgba(247, 240, 223, 0.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .bar {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 18px 24px 16px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(180px, 340px) 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit;
+      padding: 0 12px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(169, 79, 53, 0.14);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    button {
+      height: 40px;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit;
+      padding: 0 12px;
+      cursor: pointer;
+    }
+
+    button.active {
+      border-color: var(--accent-dark);
+      background: var(--accent);
+      color: #fffaf0;
+    }
+
+    main {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .sections {
+      display: grid;
+      gap: 34px;
+    }
+
+    .packaging-section {
+      margin-bottom: 38px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .packaging-grid {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.72fr) minmax(320px, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .packaging-card {
+      min-width: 0;
+    }
+
+    .packaging-card .frame img {
+      aspect-ratio: auto;
+      object-fit: contain;
+    }
+
+    .packaging-card.wide {
+      grid-column: span 1;
+    }
+
+    .suit-section {
+      min-width: 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 0 12px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .section-count {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      min-width: 0;
+    }
+
+    .frame {
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 10px 28px var(--shadow);
+    }
+
+    .frame img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 2.5 / 3.5;
+      object-fit: cover;
+      background: var(--surface);
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 10px;
+      padding: 10px 2px 0;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .rank {
+      font-weight: 800;
+      color: var(--accent-dark);
+    }
+
+    .park {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-weight: 650;
+    }
+
+    .empty {
+      display: none;
+      padding: 48px 0;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      .bar {
+        padding: 16px;
+      }
+
+      .title-row {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        justify-content: flex-start;
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      .packaging-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <div class="title-row">
+        <h1>National Parks Playing Cards Review</h1>
+        <div class="count" id="count">54 cards</div>
+      </div>
+      <div class="controls">
+        <input id="search" type="search" placeholder="Search park, rank, or filename" autocomplete="off">
+        <div class="filters" aria-label="Filter cards by suit">
+          <button type="button" class="active" data-filter="all">All</button>
+          <button type="button" data-filter="spades">Spades</button>
+          <button type="button" data-filter="hearts">Hearts</button>
+          <button type="button" data-filter="clubs">Clubs</button>
+          <button type="button" data-filter="diamonds">Diamonds</button>
+          <button type="button" data-filter="joker">Jokers</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="packaging-section">
+      <div class="section-heading">
+        <h2>Packaging & Card Back</h2>
+        <span class="section-count">3 drafts</span>
+      </div>
+      <div class="packaging-grid">
+        <article class="packaging-card">
+          <a class="frame" href="packaging/tuck-box-mockup-v1.png" target="_blank" rel="noreferrer" aria-label="Open tuck box 3D mockup">
+            <img src="packaging/tuck-box-mockup-v1.png" alt="Tuck box 3D mockup" loading="lazy">
+          </a>
+          <div class="meta">
+            <div class="rank">Mockup</div>
+            <div class="park">3D Tuck Box Concept</div>
+          </div>
+        </article>
+        <article class="packaging-card wide">
+          <a class="frame" href="packaging/tuck-box-dieline-v2.png" target="_blank" rel="noreferrer" aria-label="Open tuck box unfolded design draft">
+            <img src="packaging/tuck-box-dieline-v2.png" alt="Tuck box unfolded design draft" loading="lazy">
+          </a>
+          <div class="meta">
+            <div class="rank">Dieline</div>
+            <div class="park">Brand Back Design Draft</div>
+          </div>
+        </article>
+        <article class="packaging-card">
+          <a class="frame" href="digital/card-back-v2.png" target="_blank" rel="noreferrer" aria-label="Open card back design draft">
+            <img src="digital/card-back-v2.png" alt="Card back design draft" loading="lazy">
+          </a>
+          <div class="meta">
+            <div class="rank">Card Back</div>
+            <div class="park">Compass Mountain River Back</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div class="sections" id="sections" aria-live="polite"></div>
+    <p class="empty" id="empty">No cards match the current filter.</p>
+  </main>
+
+  <script>
+    const cards = [
+      { rank: "A♠", suit: "spades", park: "Grand Canyon", file: "AS-grand-canyon.png" },
+      { rank: "K♠", suit: "spades", park: "Zion", file: "KS-zion.png" },
+      { rank: "Q♠", suit: "spades", park: "Bryce Canyon", file: "QS-bryce-canyon.png" },
+      { rank: "J♠", suit: "spades", park: "Arches", file: "JS-arches.png" },
+      { rank: "10♠", suit: "spades", park: "Canyonlands", file: "10S-canyonlands.png" },
+      { rank: "9♠", suit: "spades", park: "Capitol Reef", file: "9S-capitol-reef.png" },
+      { rank: "8♠", suit: "spades", park: "Badlands", file: "8S-badlands.png" },
+      { rank: "7♠", suit: "spades", park: "Black Canyon of the Gunnison", file: "7S-black-canyon-of-the-gunnison.png" },
+      { rank: "6♠", suit: "spades", park: "Guadalupe Mountains", file: "6S-guadalupe-mountains.png" },
+      { rank: "5♠", suit: "spades", park: "Mesa Verde", file: "5S-mesa-verde.png" },
+      { rank: "4♠", suit: "spades", park: "Petrified Forest", file: "4S-petrified-forest.png" },
+      { rank: "3♠", suit: "spades", park: "Carlsbad Caverns", file: "3S-carlsbad-caverns.png" },
+      { rank: "2♠", suit: "spades", park: "Mammoth Cave", file: "2S-mammoth-cave.png" },
+      { rank: "A♥", suit: "hearts", park: "Yosemite", file: "AH-yosemite.png" },
+      { rank: "K♥", suit: "hearts", park: "Grand Teton", file: "KH-grand-teton.png" },
+      { rank: "Q♥", suit: "hearts", park: "Glacier", file: "QH-glacier.png" },
+      { rank: "J♥", suit: "hearts", park: "Denali", file: "JH-denali.png" },
+      { rank: "10♥", suit: "hearts", park: "Rocky Mountain", file: "10H-rocky-mountain.png" },
+      { rank: "9♥", suit: "hearts", park: "Mount Rainier", file: "9H-mount-rainier.png" },
+      { rank: "8♥", suit: "hearts", park: "Sequoia", file: "8H-sequoia.png" },
+      { rank: "7♥", suit: "hearts", park: "Kings Canyon", file: "7H-kings-canyon.png" },
+      { rank: "6♥", suit: "hearts", park: "Glacier Bay", file: "6H-glacier-bay.png" },
+      { rank: "5♥", suit: "hearts", park: "Kenai Fjords", file: "5H-kenai-fjords.png" },
+      { rank: "4♥", suit: "hearts", park: "Lassen Volcanic", file: "4H-lassen-volcanic.png" },
+      { rank: "3♥", suit: "hearts", park: "Great Basin", file: "3H-great-basin.png" },
+      { rank: "2♥", suit: "hearts", park: "Pinnacles", file: "2H-pinnacles.png" },
+      { rank: "A♣", suit: "clubs", park: "Yellowstone", file: "AC-yellowstone.png" },
+      { rank: "K♣", suit: "clubs", park: "Great Smoky Mountains", file: "KC-great-smoky-mountains.png" },
+      { rank: "Q♣", suit: "clubs", park: "Acadia", file: "QC-acadia.png" },
+      { rank: "J♣", suit: "clubs", park: "Olympic", file: "JC-olympic.png" },
+      { rank: "10♣", suit: "clubs", park: "Shenandoah", file: "10C-shenandoah.png" },
+      { rank: "9♣", suit: "clubs", park: "Cuyahoga Valley", file: "9C-cuyahoga-valley.png" },
+      { rank: "8♣", suit: "clubs", park: "New River Gorge", file: "8C-new-river-gorge.png" },
+      { rank: "7♣", suit: "clubs", park: "Redwood", file: "7C-redwood.png" },
+      { rank: "6♣", suit: "clubs", park: "Congaree", file: "6C-congaree.png" },
+      { rank: "5♣", suit: "clubs", park: "Theodore Roosevelt", file: "5C-theodore-roosevelt.png" },
+      { rank: "4♣", suit: "clubs", park: "Indiana Dunes", file: "4C-indiana-dunes.png" },
+      { rank: "3♣", suit: "clubs", park: "Voyageurs", file: "3C-voyageurs.png" },
+      { rank: "2♣", suit: "clubs", park: "Wind Cave", file: "2C-wind-cave.png" },
+      { rank: "A♦", suit: "diamonds", park: "Joshua Tree", file: "AD-joshua-tree.png" },
+      { rank: "K♦", suit: "diamonds", park: "Death Valley", file: "KD-death-valley.png" },
+      { rank: "Q♦", suit: "diamonds", park: "Hawai'i Volcanoes", file: "QD-hawaii-volcanoes.png" },
+      { rank: "J♦", suit: "diamonds", park: "Everglades", file: "JD-everglades.png" },
+      { rank: "10♦", suit: "diamonds", park: "Saguaro", file: "10D-saguaro.png" },
+      { rank: "9♦", suit: "diamonds", park: "Haleakala", file: "9D-haleakala.png" },
+      { rank: "8♦", suit: "diamonds", park: "White Sands", file: "8D-white-sands.png" },
+      { rank: "7♦", suit: "diamonds", park: "Big Bend", file: "7D-big-bend.png" },
+      { rank: "6♦", suit: "diamonds", park: "Great Sand Dunes", file: "6D-great-sand-dunes.png" },
+      { rank: "5♦", suit: "diamonds", park: "Crater Lake", file: "5D-crater-lake.png" },
+      { rank: "4♦", suit: "diamonds", park: "Biscayne", file: "4D-biscayne.png" },
+      { rank: "3♦", suit: "diamonds", park: "Virgin Islands", file: "3D-virgin-islands.png" },
+      { rank: "2♦", suit: "diamonds", park: "Channel Islands", file: "2D-channel-islands.png" },
+      { rank: "Big Joker", suit: "joker", park: "Red Star Variant", file: "joker-bald-eagle.png" },
+      { rank: "Small Joker", suit: "joker", park: "Green Star Variant", file: "joker-bear.png" }
+    ];
+
+    const groups = [
+      { id: "spades", label: "Spades" },
+      { id: "hearts", label: "Hearts" },
+      { id: "clubs", label: "Clubs" },
+      { id: "diamonds", label: "Diamonds" },
+      { id: "joker", label: "Jokers" }
+    ];
+
+    const sections = document.querySelector("#sections");
+    const empty = document.querySelector("#empty");
+    const count = document.querySelector("#count");
+    const search = document.querySelector("#search");
+    const filterButtons = [...document.querySelectorAll("[data-filter]")];
+    let activeFilter = "all";
+
+    function render() {
+      const query = search.value.trim().toLowerCase();
+      const visible = cards.filter((card) => {
+        const matchesFilter = activeFilter === "all" || card.suit === activeFilter;
+        const haystack = `${card.rank} ${card.park} ${card.file} ${card.suit}`.toLowerCase();
+        return matchesFilter && haystack.includes(query);
+      });
+
+      const visibleGroups = groups.map((group) => ({
+        ...group,
+        cards: visible.filter((card) => card.suit === group.id)
+      })).filter((group) => group.cards.length);
+
+      sections.innerHTML = visibleGroups.map((group) => `
+        <section class="suit-section" data-suit="${group.id}">
+          <div class="section-heading">
+            <h2>${group.label}</h2>
+            <span class="section-count">${group.cards.length} cards</span>
+          </div>
+          <div class="grid">
+            ${group.cards.map((card) => `
+        <article class="card">
+          <a class="frame" href="digital/cards/${card.file}" target="_blank" rel="noreferrer" aria-label="Open ${card.rank} ${card.park}">
+            <img src="digital/cards/${card.file}" alt="${card.rank} ${card.park}" loading="lazy">
+          </a>
+          <div class="meta">
+            <div class="rank">${card.rank}</div>
+            <div class="park">${card.park}</div>
+          </div>
+        </article>
+            `).join("")}
+          </div>
+        </section>
+      `).join("");
+
+      count.textContent = `${visible.length} / ${cards.length} cards`;
+      empty.style.display = visible.length ? "none" : "block";
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        filterButtons.forEach((item) => item.classList.toggle("active", item === button));
+        render();
+      });
+    });
+
+    search.addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>
