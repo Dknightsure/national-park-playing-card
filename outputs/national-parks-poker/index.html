@@ -202,8 +202,9 @@
 
     .meta {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: auto 1fr auto;
       gap: 6px 10px;
+      align-items: start;
       padding: 10px 2px 0;
       font-size: 13px;
       line-height: 1.25;
@@ -218,6 +219,27 @@
       min-width: 0;
       overflow-wrap: anywhere;
       font-weight: 650;
+    }
+
+    .export-link {
+      justify-self: end;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 6px 9px;
+      background: var(--surface);
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .export-link:focus,
+    .export-link:hover {
+      border-color: var(--accent-dark);
+      background: rgba(169, 79, 53, 0.1);
+      outline: none;
     }
 
     .empty {
@@ -257,6 +279,15 @@
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 16px;
       }
+
+      .meta {
+        grid-template-columns: auto 1fr;
+      }
+
+      .export-link {
+        grid-column: 1 / -1;
+        justify-self: start;
+      }
     }
   </style>
 </head>
@@ -285,7 +316,7 @@
     <section class="packaging-section">
       <div class="section-heading">
         <h2>Packaging & Card Back</h2>
-        <span class="section-count">3 drafts</span>
+        <span class="section-count">4 drafts</span>
       </div>
       <div class="packaging-grid">
         <article class="packaging-card">
@@ -295,6 +326,7 @@
           <div class="meta">
             <div class="rank">Mockup</div>
             <div class="park">3D Tuck Box Concept</div>
+            <a class="export-link" href="packaging/tuck-box-mockup-v1.png" download="tuck-box-mockup-v1.png" aria-label="Export tuck box 3D mockup PNG">Export PNG</a>
           </div>
         </article>
         <article class="packaging-card wide">
@@ -304,15 +336,27 @@
           <div class="meta">
             <div class="rank">Dieline</div>
             <div class="park">Brand Back Design Draft</div>
+            <a class="export-link" href="packaging/tuck-box-dieline-v2.png" download="tuck-box-dieline-v2.png" aria-label="Export tuck box unfolded design PNG">Export PNG</a>
           </div>
         </article>
         <article class="packaging-card">
-          <a class="frame" href="digital/card-back-v2.png" target="_blank" rel="noreferrer" aria-label="Open card back design draft">
-            <img src="digital/card-back-v2.png" alt="Card back design draft" loading="lazy">
+          <a class="frame" href="digital/card-back-v2.png" target="_blank" rel="noreferrer" aria-label="Open original card back design draft">
+            <img src="digital/card-back-v2.png" alt="Original card back design draft" loading="lazy">
           </a>
           <div class="meta">
-            <div class="rank">Card Back</div>
+            <div class="rank">Back Original</div>
             <div class="park">Compass Mountain River Back</div>
+            <a class="export-link" href="digital/card-back-v2.png" download="card-back-v2.png" aria-label="Export original card back PNG">Export PNG</a>
+          </div>
+        </article>
+        <article class="packaging-card">
+          <a class="frame" href="digital/card-back-v2-filled.png" target="_blank" rel="noreferrer" aria-label="Open filled card back design draft">
+            <img src="digital/card-back-v2-filled.png" alt="Filled card back design draft" loading="lazy">
+          </a>
+          <div class="meta">
+            <div class="rank">Back Filled</div>
+            <div class="park">Compass Mountain River Back</div>
+            <a class="export-link" href="digital/card-back-v2-filled.png" download="card-back-v2-filled.png" aria-label="Export filled card back PNG">Export PNG</a>
           </div>
         </article>
       </div>
@@ -388,6 +432,8 @@
       { id: "joker", label: "Jokers" }
     ];
 
+    const cardImageBase = "digital/cards-filled";
+
     const sections = document.querySelector("#sections");
     const empty = document.querySelector("#empty");
     const count = document.querySelector("#count");
@@ -417,12 +463,13 @@
           <div class="grid">
             ${group.cards.map((card) => `
         <article class="card">
-          <a class="frame" href="digital/cards/${card.file}" target="_blank" rel="noreferrer" aria-label="Open ${card.rank} ${card.park}">
-            <img src="digital/cards/${card.file}" alt="${card.rank} ${card.park}" loading="lazy">
+          <a class="frame" href="${cardImageBase}/${card.file}" target="_blank" rel="noreferrer" aria-label="Open ${card.rank} ${card.park}">
+            <img src="${cardImageBase}/${card.file}" alt="${card.rank} ${card.park}" loading="lazy">
           </a>
           <div class="meta">
             <div class="rank">${card.rank}</div>
             <div class="park">${card.park}</div>
+            <a class="export-link" href="${cardImageBase}/${card.file}" download="${card.file}" aria-label="Export ${card.rank} ${card.park} PNG">Export PNG</a>
           </div>
         </article>
             `).join("")}
